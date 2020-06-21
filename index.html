@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
+    <style>
+        .main {
+            font-family: 'IBM Plex Sans Condensed', sans-serif;
+        }
+        .code {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+    </style>
+
+    <title>Hello, world!</title>
+</head>
+
+<body>
+
+    <div class="container w-50 main">
+
+        <div class="row text-center my-5">
+            <h1>Improving robustness against common corruptions by covariate shift adaptation</h1>
+        </div>
+
+        <!-- Begin author list-->
+        <div class="row text-center mb-4">
+            <div class="col-sm-4 mb-4">
+                <a href="https:/stes.io" target="_blank">Steffen Schneider*</a>
+                <a href="mailto:steffen@bethgelab.org"><i class="far fa-envelope"></i></a>
+                <a href="https://stes.io" target="_blank"><i class="fas fa-link"></i></a>
+                University of Tübingen & IMPRS-IS
+            </div>
+            <div class="col-sm-4 mb-4">
+                Evgenia Rusak*
+                evgenia.rusak@bethgelab.org
+                University of Tübingen & IMPRS-IS
+            </div>
+            <div class="col-sm-4">
+                Luisa Eck<br>
+                LMU Munich
+            </div>
+            <div class="col-sm-4">
+                Oliver Bringmann<br>
+                University of Tübingen
+            </div>
+            <div class="col-sm-4">
+                Wieland Brendel<br>
+                University of Tübingen
+            </div>
+            <div class="col-sm-4">
+                Matthias Bethge<br>
+                University of Tübingen & Amazon
+            </div>
+        </div>
+        <!-- End author list-->
+
+        <div class="row text-center">
+            <div class="col-sm-6 mb-4">
+                <h3>
+                    <i class="far fa-sticky-note"></i>
+                    Paper
+                </h3>
+            </div>
+            <div class="col-sm-6 mb-4">
+                <h3>
+                    <i class="fab fa-github"></i>
+                    Code
+                </h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3>Abstract</h3>
+        </div>
+        <div class="row">
+            <p>
+                ImageNet-trained deep neural networks commonly use batch normalization and assume that activation
+                statistics of the training set generalize to the test set. This assumption is violated in
+                out-of-distribution evaluation settings, such as the ImageNet-C common corruptions benchmark. Here we
+                show that the activation statistics of a few unlabeled samples from the test set can help to
+                substantially improve performance on ImageNet-C. Using the corrected statistics, ResNet-50 models reach
+                <a href="#">62.4% mCE on ImageNet-C compared to 76.7% without adaptation</a>. Using the more robust
+                AugMix model, we improve the state of the art (without adaptation) <a href="#">from 56.5% mCE to 51.0%
+                    mCE</a>. Even a single sample suffices to improve baseline results for the ResNet-50 and AugMix
+                models, and 32 samples are sufficient to improve the current state of the art for a ResNet-50
+                architecture. We show that this improvement is consistent across 25 different popular computer vision
+                models and argue that results with adapted statistics should be included whenever reporting scores in
+                out-of-distribution generalization settings.
+            </p>
+        </div>
+
+        <div class="row">
+            <h3>Method</h3>
+        </div>
+
+        <div class="row">
+            <p>
+                We investigate improvements by estimating statistics on the test dataset.
+            </p>
+
+            <p class="text-center">
+                $$
+                \bar{\mu} = \frac{N \mu_s}{N + n} + \frac{n \mu_t}{N + n} , \quad
+                \bar{\sigma}^2 = \frac{N \sigma_s^2}{N + n} + \frac{n \sigma_t^2}{N + n} .
+                $$
+            </p>
+        </div>
+
+        <div class="row">
+            <h3>Key Results</h3>
+        </div>
+
+
+        <div class="row">
+            <h4>Adaptation boosts robustness of a vanilla trained ResNet-50 model</h4>
+        </div>
+        <div class="row text-center align-center">
+            <canvas id="canvas"></canvas>
+        </div>
+
+
+        <div class="row">
+            <h4>Adaptation consistently improves corruption robustness across IN trained models</h4>
+
+            <h4>Adaptation yields new state of the art on IN-C for robust models.</h4>
+
+            <h4>Large scale pre-training alleviates the need for adaptation.</h4>
+        </div>
+
+        <div class="row">
+            <h3>Citation</h3>
+            If you find our analysis helpful for your research and want to adapt the method, please cite our pre-print:
+            </div>
+        <div class="row justify-content-md-center">
+            <div class="col-sm-10 rounded p-3 m-2" style="background-color:lightgray;">
+            <p class="code">
+            @article{schneider2020betterinc,<br>
+            author    = { Schneider, Steffen and Rusak, Evgenia<br>
+                            and Eck, Luisa and Bringmann, Oliver<br>
+                            and Brendel, Wieland and Bethge, Matthias},<br>
+            title     = {Removing covariate shift improves<br>
+                        robustness against common corruptions},<br>
+            journal   = {CoRR},<br>
+            year      = {2020},<br>
+            }
+            </p>
+            </div>
+        </div>
+
+
+    </div>
+
+    <footer>
+        Webpage designed by Steffen Schneider using Bootstrap 4.5 and Chart.js.
+    </footer>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+    <script src="data.js"></script>
+
+    <script>
+        var config = {
+            type: 'line',
+            data: {
+                labels: table.batchsize,
+                datasets: [{
+                    label: 'ResNet',
+                    borderColor: COLOR[0],
+                    data: table2chart(table_batchsize_optimal.batchsize, table_batchsize_optimal.resnet),
+                    fill: false,
+                }, {
+                    label: 'AutoAugment',
+                    fill: false,
+                    borderColor: COLOR[1],
+                    data: table2chart(table_batchsize_optimal.batchsize, table_batchsize_optimal.augmix),
+                }, {
+                    label: 'AugMix',
+                    fill: false,
+                    borderColor: COLOR[0],
+                    borderDash: [5, 5],
+                    data: table2chart(table_infty_rn50.batchsize, table_infty_rn50.mCE),
+                }, {
+                    label: 'AugMix',
+                    fill: false,
+                    borderColor: COLOR[1],
+                    borderDash: [5, 5],
+                    data: table2chart(table_infty_augmix.batchsize, table_infty_augmix.mCE),
+                }
+                ]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: false,
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        type: 'logarithmic',
+                        ticks: {
+                            min: 1,
+                            max: 4096
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: '# Samples'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Mean Corruption Error'
+                        }
+                    }]
+                }
+            }
+        };
+
+        window.onload = function () {
+            var ctx = document.getElementById('canvas').getContext('2d');
+            window.myLine = new Chart(ctx, config);
+        };
+
+    </script>
+</body>
+
+</html>
