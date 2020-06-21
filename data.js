@@ -6,10 +6,10 @@ function table2chart(x, y) {
     })
 }
 
-function make_table(data, header) {
+function make_table(data, header, format = true) {
     data = data.map(element => {
         return element.split(/\s+/).map(
-            el => { return parseFloat(el); }
+            el => { if (format) { return parseFloat(el); } else {return el;}; }
         );
     });
     table = {};
@@ -57,89 +57,58 @@ function batchsize_infty_augmix() {
 }
 
 function torchvision_models() {
-header = ["classandmode","model","params","mCE"];
+header=["modelclass","model","trainmode","params","in","inc"]
 data = [
-    "densenetandeval densenet121 7978856 73.3881620272207",
-    "densenetandeval densenet169 14149480 69.43870798867192",
-    "densenetandeval densenet201 20013928 68.41362551407302",
-    "densenetandeval densenet161 28681000 66.39559307526926",
-
-    "densenetandtrain densenet121 7978856 63.00403690715165",
-    "densenetandtrain densenet169 14149480 58.39255691400643",
-    "densenetandtrain densenet201 20013928 57.11901701932954",
-    "densenetandtrain densenet161 28681000 55.83293152942181",
-
-    "efficientnetandeval efficientnet-b0 5288548 73.26226641773326",
-    "efficientnetandeval efficientnet-b1 7794184 70.07790916294785",
-    "efficientnetandeval efficientnet-b2 9109994 67.29190275889681",
-    "efficientnetandeval efficientnet-b3 12233232 64.57734718214144",
-    "efficientnetandeval efficientnet-b4 19341616 61.98612194625972",
-
-    "efficientnetandtrain efficientnet-b0 5288548 64.8220397723427",
-    "efficientnetandtrain efficientnet-b1 7794184 63.11265656335135",
-    "efficientnetandtrain efficientnet-b2 9109994 61.72949026699069",
-    "efficientnetandtrain efficientnet-b3 12233232 60.37568376476597",
-    "efficientnetandtrain efficientnet-b4 19341616 62.78734075950654",
-
-    "googlenetandeval googlenet 13004888 78.78446193555415",
-
-    "googlenetandtrain googlenet 13004888 68.49853447324278",
-
-    "inceptionandeval inception-v3 27161264 73.95608003073308",
-
-    "inceptionandtrain inception-v3 27161264 68.53787337431501",
-
-    "mnasnetandeval mnasnet0-5 2220824 93.20740450124714",
-    "mnasnetandeval mnasnet1-0 4383312 83.04069503414654",
-
-    "mnasnetandtrain mnasnet0-5 2220824 80.75864133269356",
-    "mnasnetandtrain mnasnet1-0 4383312 71.69512947182425",
-
-    "mobilenetandeval mobilenet-v2 3504872 86.17972537000172",
-
-    "mobilenetandtrain mobilenet-v2 3504872 74.08607873484806",
-
-    "resnetandeval resnet18 11689512 84.66180983833746",
-    "resnetandeval resnet34 21797672 77.85158844676558",
-    "resnetandeval resnet101 44549160 70.37202327968103",
-    "resnetandeval resnet152 60192808 69.2738112841056",
-
-    "resnetandtrain resnet18 11689512 70.40369211061723",
-    "resnetandtrain resnet34 21797672 65.6912781049942",
-    "resnetandtrain resnet50 25557032 62.54093468219573",
-    "resnetandtrain resnet101 44549160 59.63391087368926",
-    "resnetandtrain resnet152 60192808 58.12008919166234",
-    "resnetandtrain resnet152 60192808 57.96737349710481",
-
-    "resnextandeval resnext50-32x4d 25028904 72.33869718047411",
-    "resnextandeval resnext101-32x8d 88791336 57.545475193621456",
-
-    "resnextandtrain resnext50-32x4d 25028904 60.03195100582378",
-    "resnextandtrain resnext101-32x8d 88791336 56.75767354733151",
-
-    "shufflenetandeval shufflenet-v2-x0-5 1366792 98.7302260014703",
-    "shufflenetandeval shufflenet-v2-x1-0 2278604 90.4393593874728",
-
-    "shufflenetandtrain shufflenet-v2-x0-5 1366792 82.32777887526719",
-    "shufflenetandtrain shufflenet-v2-x1-0 2278604 72.91058834739037",
-
-    "vggandeval vgg11-bn 132868840 89.43138492094239",
-    "vggandeval vgg13-bn 133053736 90.05885799733039",
-    "vggandeval vgg16-bn 138365992 75.30718590965348",
-    "vggandeval vgg19-bn 143678248 81.58848524784764",
-
-    "vggandtrain vgg11-bn 132868840 74.65514090410986",
-    "vggandtrain vgg13-bn 133053736 74.15797017459586",
-    "vggandtrain vgg16-bn 138365992 69.87578225621775",
-    "vggandtrain vgg19-bn 143678248 67.69412062378686",
-
-    "wideandeval wide-resnet50-2 68883240 71.73141231489339",
-    "wideandeval wide-resnet101-2 126886696 67.6828440252116",
-
-    "wideandtrain wide-resnet50-2 68883240 58.329735602772125",
-    "wideandtrain wide-resnet101-2 126886696 57.25696985905995",
+"densenet      densenet121         False        7.97886e+06  25.566  73.3882",
+"densenet      densenet121         True         7.97886e+06  25.654  63.004",
+"densenet      densenet161         False        2.8681e+07   22.862  66.3956",
+"densenet      densenet161         True         2.8681e+07   22.522  55.8329",
+"densenet      densenet169         False        1.41495e+07  24.4    69.4387",
+"densenet      densenet169         True         1.41495e+07  23.874  58.3926",
+"densenet      densenet201         False        2.00139e+07  23.104  68.4136",
+"densenet      densenet201         True         2.00139e+07  23.014  57.119",
+"googlenet     googlenet           False        1.30049e+07  30.222  78.7845",
+"googlenet     googlenet           True         1.30049e+07  31.162  68.4985",
+"inception     inception_v3        False        2.71613e+07  30.462  73.9561",
+"inception     inception_v3        True         2.71613e+07  33.432  68.5379",
+"mnasnet       mnasnet0_5          False        2.22082e+06  32.398  93.2074",
+"mnasnet       mnasnet0_5          True         2.22082e+06  34.308  80.7586",
+"mnasnet       mnasnet1_0          False        4.38331e+06  26.544  83.0407",
+"mnasnet       mnasnet1_0          True         4.38331e+06  28.182  71.6951",
+"mobilenet     mobilenet_v2        False        3.50487e+06  28.122  86.1797",
+"mobilenet     mobilenet_v2        True         3.50487e+06  28.796  74.0861",
+"resnet        resnet101           False        4.45492e+07  22.626  70.372",
+"resnet        resnet101           True         4.45492e+07  22.946  59.6339",
+"resnet        resnet152           False        6.01928e+07  21.688  69.2738",
+"resnet        resnet152           True         6.01928e+07  22.006  58.1201",
+"resnet        resnet18            False        1.16895e+07  30.242  84.6618",
+"resnet        resnet18            True         1.16895e+07  30.898  70.4037",
+"resnet        resnet34            False        2.17977e+07  26.686  77.8516",
+"resnet        resnet34            True         2.17977e+07  27.11   65.6913",
+"resnet        resnet50            False        2.5557e+07   23.87   76.6959",
+"resnet        resnet50            True         2.5557e+07   24.362  62.5409",
+"resnext       resnext101_32x8d    False        8.87913e+07  20.688  66.6498",
+"resnext       resnext101_32x8d    True         8.87913e+07  20.782  56.7577",
+"resnext       resnext50_32x4d     False        2.50289e+07  22.382  72.3387",
+"resnext       resnext50_32x4d     True         2.50289e+07  22.74   60.032",
+"shufflenet    shufflenet_v2_x0_5  False        1.36679e+06  39.448  98.7302",
+"shufflenet    shufflenet_v2_x0_5  True         1.36679e+06  39.852  82.3278",
+"shufflenet    shufflenet_v2_x1_0  False        2.2786e+06   30.638  90.4394",
+"shufflenet    shufflenet_v2_x1_0  True         2.2786e+06   31.03   72.9106",
+"vgg           vgg11_bn            False        1.32869e+08  29.63   89.4314",
+"vgg           vgg11_bn            True         1.32869e+08  30.05   74.6551",
+"vgg           vgg13_bn            False        1.33054e+08  28.414  90.0589",
+"vgg           vgg13_bn            True         1.33054e+08  28.884  74.158",
+"vgg           vgg16_bn            False        1.38366e+08  26.64   84.5547",
+"vgg           vgg16_bn            True         1.38366e+08  27.044  69.8758",
+"vgg           vgg19_bn            False        1.43678e+08  25.782  81.5885",
+"vgg           vgg19_bn            True         1.43678e+08  26.248  67.6941",
+"wide          wide_resnet101_2    False        1.26887e+08  21.152  67.6828",
+"wide          wide_resnet101_2    True         1.26887e+08  21.924  57.257",
+"wide          wide_resnet50_2     False        6.88832e+07  21.532  71.7314",
+"wide          wide_resnet50_2     True         6.88832e+07  22.262  58.3297",
 ];
-return make_table(data, header);
+return make_table(data, header, format = false);
 }
 
 function batchsize_optimal() {
