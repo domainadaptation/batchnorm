@@ -35,9 +35,17 @@
 
 <body>
 
-    <div class="container w-50 main">
+    <div class="container w-75 main">
+        <div class = "row">
+            <div class="col-lg-8">
 
-        <div class="row text-center my-5">
+            </div>
+            <div class="col-lg-4">
+
+            </div>
+        </div>
+
+        <div class="row text-center my-5" id="#">
             <h1>Improving robustness against common corruptions by covariate shift adaptation</h1>
         </div>
 
@@ -87,6 +95,13 @@
                 </h3>
             </div>
         </div>
+        <div class="row text-center">
+            <p>
+            <b>tl;dr:</b>
+            <span class="text-muted">When evaluating robustness, go beyond the assumption of a single sample from the target domain. We provide a simple baseline improving the corruption error up to 14% points over a wide range of models, when access to more than a single sample is possible.
+            </span>
+            </p>
+        </div>
 
         <div class="row">
             <h3>Abstract</h3>
@@ -112,9 +127,10 @@
             <h3>Method</h3>
         </div>
 
-        <div class="rounded w-100" style="background-image: url(https://github.com/hendrycks/robustness/raw/master/assets/imagenet-c.png); background-repeat: no-repeat; background-size: contain, cover; min-height: 300px;">
+        <div class="rounded w-100"
+            style="background-image: url(https://github.com/hendrycks/robustness/raw/master/assets/imagenet-c.png); background-repeat: no-repeat; background-size: contain, cover; min-height: 300px;">
         </div>
-        
+
 
         <div class="row">
             <p>
@@ -136,6 +152,14 @@
 
         <div class="row">
             <h4>Adaptation boosts robustness of a vanilla trained ResNet-50 model</h4>
+            <p>
+                We found that the robustness of computer vision models based on the ResNet-50 architecture is currently underestimated:
+                When employing the corrected statistics to normalize the network, we see performance improvements of a much as 14% points mCE.
+            </p>
+            <p>
+                The exact value depends on the target domain batchsize and the source domain pseudo-batchsize. 
+                The following plot shows the dependency of performance on IN-C and number of unlabeled target domain samples we can access.
+            </p>
         </div>
         <div class="row text-center align-center">
             <div class="col-lg-10">
@@ -147,8 +171,10 @@
         <div class="row">
             <h4>Adaptation consistently improves corruption robustness across IN trained models</h4>
             <p>
-                We benchmarked the improvement of model robustness for all computer vision architectures implemented in the torchvision library.
-                We find consistent improvements, typically on the order of 10% points, when using the proposed adaptation scheme.
+                We benchmarked the improvement of model robustness for all computer vision architectures implemented in
+                the torchvision library.
+                We find consistent improvements, typically on the order of 10% points, when using the proposed
+                adaptation scheme.
             </p>
         </div>
         <div class="row text-center align-center">
@@ -157,7 +183,40 @@
 
         <div class="row">
             <h4>Adaptation yields new state of the art on IN-C for robust models.</h4>
+            <p>
+                Besides vanilla trained ResNets, we also explore a variety of robust models part of the <a href="https://github.com/hendrycks/robustness#imagenet-c-leaderboard" target="_blank">IN-C Leaderboard</a>.
+                We see considerable improvement across all of these models for a sufficient number of samples from the target domain.
+                It is instructive to also consider the full trade-off between the number of samples in the target domain and the performance.
+            </p>
+            <div class="row text-center align-center">
+                <div class="col-lg-12">
+                    <canvas id="canvas-priors" class="mx-auto"></canvas>
+                </div>
+                <div class="btn-group align-center text-center mx-auto" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-secondary" id="select_sin">SIN</button>
+                    <button type="button" class="btn btn-secondary" id="select_ant">ANT</button>
+                    <button type="button" class="btn btn-secondary" id="select_antsin">ANT+SIN</button>
+                    <button type="button" class="btn btn-secondary" id="select_augmix">AugMix</button>
+                    <button type="button" class="btn btn-secondary" id="select_resnet">ResNet-50</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <h4>Large scale pre-training alleviates the need for adaptation.</h4>
+        </div>
+
+        <div class="row">
+            <h4>The Wasserstein Distance is a good measure of domain shift.</h4>
+            <p>How can we quantify domain shift besides estimating the classification performance on the target domain?
+            Without target domain labels, we can leverage the mismatch in source and target statistics for this purpose.
+            We define the normalized Wasserstein distance as 
+            $$
+            W_2 = ...
+            $$
+            and consider the correlation between the Wasserstein distance and the error rates.
+            We find a correlation between the quantities especially <i>within the same corruption type</i>.
+            </p>
         </div>
 
         <div class="row">
@@ -180,6 +239,10 @@
                     }
                 </p>
             </div>
+        </div>
+
+        <div class="row">
+            <a href="#"><i class="fas fa-sort-up"></i></a>
         </div>
 
 
@@ -207,16 +270,33 @@
 
     <script src="plot-bsz.js"></script>
     <script src="plot-torchvision.js"></script>
+    <script src="plot-all-models.js"></script>
+
     <script>
 
-window.onload = function () {
-    window.plotBatchsize = new Chart(
-        document.getElementById('canvas-batchsize').getContext('2d'),
-        config_batchsize);
-    window.plotTorchvision = new Chart(
-        document.getElementById('canvas-torchvision').getContext('2d'),
-        config_torchvision);
-};
+        window.onload = function () {
+            window.plotBatchsize = new Chart(
+                document.getElementById('canvas-batchsize').getContext('2d'),
+                config_batchsize);
+            window.plotTorchvision = new Chart(
+                document.getElementById('canvas-torchvision').getContext('2d'),
+                config_torchvision);
+            window.plotPriors = new Chart(
+                document.getElementById('canvas-priors').getContext('2d'),
+                config_priors);
+
+            [sin, ant, antsin, augmix, resnet].forEach(func => {
+                $(`#select_${func.name}`).click(function () {
+                    new_dataset = get_datasets_priors(func);
+                    window.plotPriors.config.data.datasets.forEach((ds, idx) => {
+                        //ds.data.length = 0;
+                        //new_dataset[idx].data.forEach(sample => ds.data.push(sample));
+                        ds.data = new_dataset[idx].data;
+                    });
+                    window.plotPriors.update({ duration: 800, easing: 'easeInOutCubic' });
+                });
+            });
+        };
     </script>
 </body>
 
