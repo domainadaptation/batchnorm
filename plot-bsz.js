@@ -46,7 +46,10 @@ var config_batchsize = {
                 type: 'logarithmic',
                 ticks: {
                     min: 1,
-                    max: 4096
+                    max: 4096,
+                    callback: function(label, index, labels) {
+                        return label;
+                    }
                 },
                 scaleLabel: {
                     display: true,

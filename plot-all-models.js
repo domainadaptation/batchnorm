@@ -124,7 +124,8 @@ function update_config_priors(func) {
             intersect: true
         },
         legend: {
-            display: false,
+            title: "x",
+            display: true,
         },
         scales: {
             xAxes: [{
@@ -132,11 +133,14 @@ function update_config_priors(func) {
                 type: "logarithmic",
                 ticks: {
                     min: 1,
-                    max: 256
+                    max: 256,
+                    callback: function(label, index, labels) {
+                        return label;
+                    }
                 },
                 scaleLabel: {
                     display: true,
-                    labelString: 'Batchsize'
+                    labelString: '# Samples'
                 }
             }],
             yAxes: [{

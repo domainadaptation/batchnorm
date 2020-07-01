@@ -17,7 +17,6 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 
     <style>
@@ -28,18 +27,22 @@
         .code {
             font-family: 'IBM Plex Mono', monospace;
         }
+
+        .a {
+            color: gainsboro;
+            font-family: 'IBM Plex Sans Condensed', sans-serif;
+        }
     </style>
 
     <title>Adaptive BatchNorm</title>
 </head>
 
 <body>
-
-    <div class="container w-75 main">
+    <div class="container main">
         <div class="row">
-            <div class="col-lg-2">
+            <div class="col-sm-2">
             </div>
-            <div class="col-lg-8" id="main-content">
+            <div class="col-sm-8" id="main-content">
                 <div class="row text-center my-5" id="#">
                     <h1>Improving robustness against common corruptions by covariate shift adaptation</h1>
                 </div>
@@ -47,31 +50,34 @@
                 <!-- Begin author list-->
                 <div class="row text-center mb-4">
                     <div class="col-sm-4 mb-4">
-                        <a href="https:/stes.io" target="_blank">Steffen Schneider*</a>
+                        Steffen Schneider*
                         <a href="mailto:steffen@bethgelab.org"><i class="far fa-envelope"></i></a>
-                        <a href="https://stes.io" target="_blank"><i class="fas fa-link"></i></a>
-                        University of Tübingen & IMPRS-IS
+                        <a href="https://stes.io" target="_blank"><i class="fas fa-link"></i></a></br>
+                        University of Tübingen & <nobr>IMPRS-IS</nobr>
                     </div>
                     <div class="col-sm-4 mb-4">
                         Evgenia Rusak*
-                        evgenia.rusak@bethgelab.org
-                        University of Tübingen & IMPRS-IS
+                        <a href="mailto:evgenia.rusak@bethgelab.org"><i class="far fa-envelope"></i></a></br>
+                        University of Tübingen & <nobr>IMPRS-IS</nobr>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4  mb-4">
                         Luisa Eck<br>
                         LMU Munich
                     </div>
-                    <div class="col-sm-4">
-                        Oliver Bringmann<br>
+                    <div class="col-sm-4  mb-4">
+                        Oliver Bringmann
+                        <a href="https://embedded.uni-tuebingen.de/en/team/oliver-bringmann" target="_blank"><i
+                                class="fas fa-link"></i></a><br>
                         University of Tübingen
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4  mb-4">
                         Wieland Brendel<br>
                         University of Tübingen
                     </div>
-                    <div class="col-sm-4">
-                        Matthias Bethge<br>
-                        University of Tübingen & Amazon
+                    <div class="col-sm-4  mb-4">
+                        Matthias Bethge
+                        <a href="http://bethgelab.org/people" target="_blank"><i class="fas fa-link"></i></a><br>
+                        University of Tübingen & <nobr>Amazon Tübingen</nobr>
                     </div>
                 </div>
                 <!-- End author list-->
@@ -79,24 +85,28 @@
                 <div class="row text-center">
                     <div class="col-sm-6 mb-4">
                         <h3>
+                            <a href="https://arxiv.org/pdf/2006.16971.pdf">
                             <i class="far fa-sticky-note"></i>
                             Paper
+</a>
                         </h3>
                     </div>
                     <div class="col-sm-6 mb-4">
                         <h3>
-                            <i class="fab fa-github"></i>
-                            Code
+                            <a href="https://github.com/bethgelab/robustness"> <i class="fab fa-github"></i>
+                                Code
+                            </a>
                         </h3>
                     </div>
                 </div>
                 <div class="row text-center">
                     <p>
                         <b>tl;dr:</b>
-                        <span class="text-muted">When evaluating robustness, go beyond the assumption of a single sample
-                            from the target domain. We provide a simple baseline improving the corruption error up to
-                            14% points over a wide range of models, when access to more than a single sample is
-                            possible.
+                        <span class="text-muted">We propose to go beyond the assumption of a single sample
+                            from the target domain when evaluating robustness.
+                            Re-computing BatchNorm statistics is a simple baseline algorithm for improving the
+                            corruption error up to 14% points over a wide range of models, when access to more than a
+                            single sample is possible.
                         </span>
                     </p>
                 </div>
@@ -106,43 +116,37 @@
                 </div>
                 <div class="row">
                     <p>
-                        ImageNet-trained deep neural networks commonly use batch normalization and assume that
-                        activation
-                        statistics of the training set generalize to the test set. This assumption is violated in
-                        out-of-distribution evaluation settings, such as the ImageNet-C common corruptions benchmark.
-                        Here we
-                        show that the activation statistics of a few unlabeled samples from the test set can help to
-                        substantially improve performance on ImageNet-C. Using the corrected statistics, ResNet-50
-                        models reach
-                        <a href="#">62.4% mCE on ImageNet-C compared to 76.7% without adaptation</a>. Using the more
-                        robust
-                        AugMix model, we improve the state of the art (without adaptation) <a href="#">from 56.5% mCE to
-                            51.0%
-                            mCE</a>. Even a single sample suffices to improve baseline results for the ResNet-50 and
-                        AugMix
-                        models, and 32 samples are sufficient to improve the current state of the art for a ResNet-50
-                        architecture. We show that this improvement is consistent across 25 different popular computer
-                        vision
-                        models and argue that results with adapted statistics should be included whenever reporting
-                        scores in
-                        out-of-distribution generalization settings.
+                        Today's state-of-the-art machine vision models are vulnerable to image corruptions like blurring
+                        or compression artefacts, limiting their performance in many real-world applications.
+                        We here argue that popular benchmarks to measure model robustness against common corruptions
+                        (like ImageNet-C) underestimate model robustness in many (but not all) application scenarios.
+                        The key insight is that in many scenarios, multiple unlabeled examples of the corruptions are
+                        available and can be used for unsupervised online adaptation.
+                        Replacing the activation statistics estimated by batch normalization on the training set with
+                        the statistics of the corrupted images consistently improves the robustness across 25 different
+                        popular computer vision models.
+                        Using the corrected statistics, ResNet-50 reaches 62.2% mCE on ImageNet-C compared to 76.7%
+                        without adaptation.
+                        With the more robust AugMix model, we improve the state of the art from 56.5% mCE to 51.0% mCE.
+                        Even adapting to a single sample improves robustness for the ResNet-50 and AugMix models, and 32
+                        samples are sufficient to improve the current state of the art for a ResNet-50 architecture.
+                        We argue that results with adapted statistics should be included whenever reporting scores in
+                        corruption benchmarks and other out-of-distribution generalization settings.
                     </p>
                 </div>
 
-                <div class="row">
+                <div class="row mt-2">
                     <h3>Method</h3>
                 </div>
 
-                <div class="rounded w-100"
-                    style="background-image: url(https://github.com/hendrycks/robustness/raw/master/assets/imagenet-c.png); background-repeat: no-repeat; background-size: contain, cover; min-height: 300px;">
-                </div>
-
-
                 <div class="row">
                     <p>
-                        We investigate improvements by estimating statistics on the test dataset.
+                        Batch Normalization statistics are typically estimated on the training dataset.
+                        Under covariate shift in the inputs (e.g., by adding image corruptions), these statistics are no longer valid.
+                        We investigate improvements of various computer vision models when estimating statistics on the test dataset.
+                        To cover settings with small sample sizes \(n\) on the target domain, we optionally combine source and target statistics using \(N\) pseudo-samples from the source domain.
+                        This yields the following corrected normalization statistics:
                     </p>
-
                     <p class="text-center">
                         $$
                         \bar{\mu} = \frac{N \mu_s}{N + n} + \frac{n \mu_t}{N + n} , \quad
@@ -151,24 +155,47 @@
                     </p>
                 </div>
 
-                <div class="row">
-                    <h3>Key Results</h3>
+
+                <div class="row mt-2">
+                    <h3>Dataset</h3>
                 </div>
 
+                <div class="row">
+                    <p>We consider ImageNet-C comprised of 15 test and 4 holdout corruptions as the main dataset in our study. We run ablations on IN-V2, IN-A and ObjectNet and will consider recently released datasets in updates of our pre-print. Gains are only to be expected on dataset with a clearly defined and systematic domain shifts, such as in ImageNet-C.
+                    On other datasets, more powerful <a href="https://domainadaptation.org/" target="_blank">domain adaptation</a> methods are likely needed to correct the shift.
+                    </p>
+                </div>
+
+                <div class="row">
+                    <div class="rounded col-lg-2"></div>
+                    <div class="rounded col-lg-8">
+                        <div class="w-100 pt-10"
+                            style="background-image: url(https://github.com/hendrycks/robustness/raw/master/assets/imagenet-c.png); background-repeat: no-repeat; background-size: contain, cover; min-height: 300px;">
+                        </div>
+                        <small class="text-muted">Overview of corruptions in the ImageNet-C dataset.
+                            Reproduced from <a href="https://github.com/hendrycks/robustness"
+                                target='_blank'>github.com/hendrycks</a>.
+                        </small>
+                    </div>
+                    <div class="rounded col-lg-2"></div>
+                </div>
+
+                <div class="row mt-2">
+                    <h3>Key Results</h3>
+                </div>
 
                 <div class="row">
                     <h4>Adaptation boosts robustness of a vanilla trained ResNet-50 model</h4>
                     <p>
                         We found that the robustness of computer vision models based on the ResNet-50 architecture is
-                        currently underestimated:
+                        currently underestimated and can be substantially improved if access to more than one target sample is allowed.
                         When employing the corrected statistics to normalize the network, we see performance
-                        improvements of a much as 14% points mCE.
-                        <span data-footnote="1"></span>
+                        improvements of as much as 14% points mCE.
                     </p>
                     <p>
                         The exact value depends on the target domain batchsize and the source domain pseudo-batchsize.
                         The following plot shows the dependency of performance on IN-C and number of unlabeled target
-                        domain samples we can access.
+                        domain samples we can access, for the best pseudo-batchsize \(N\) selected on the holdout set existing for this purpose (solid lines), or the default \(N = 0\) (dashed line).
                     </p>
                 </div>
                 <div class="row text-center align-center">
@@ -178,7 +205,7 @@
                 </div>
 
 
-                <div class="row">
+                <div class="row mt-2">
                     <h4>Adaptation consistently improves corruption robustness across IN trained models</h4>
                     <p>
                         We benchmarked the improvement of model robustness for all computer vision architectures
@@ -186,23 +213,27 @@
                         the torchvision library.
                         We find consistent improvements, typically on the order of 10% points, when using the proposed
                         adaptation scheme.
-                        <span data-footnote="2"></span>
                     </p>
                 </div>
                 <div class="row text-center align-center">
                     <canvas id="canvas-torchvision"></canvas>
                 </div>
 
-                <div class="row">
+                <div class="row mt-2">
                     <h4>Adaptation yields new state of the art on IN-C for robust models.</h4>
                     <p>
                         Besides vanilla trained ResNets, we also explore a variety of robust models part of the <a
-                            href="https://github.com/hendrycks/robustness#imagenet-c-leaderboard" target="_blank">IN-C
-                            Leaderboard</a>.
+                        href="https://github.com/hendrycks/robustness#imagenet-c-leaderboard" target="_blank">IN-C
+                        Leaderboard</a>.
                         We see considerable improvement across all of these models for a sufficient number of samples
                         from the target domain.
-                        It is instructive to also consider the full trade-off between the number of samples in the
-                        target domain and the performance.
+                    </p>
+                    <div class="mx-auto align-center text-center my-4">
+                        <img class="w-75" src="table.png">
+                    </div>
+                    <p>
+                        In the following, we investigate the result in more detail and show results for different pseudo batchsizes (color) and target dataset sizes (x axis).
+                        We provide a theoretical model qualitatively explaining the observed behavior in the paper.
                     </p>
                     <div class="row text-center align-center">
                         <div class="col-lg-12">
@@ -217,64 +248,60 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <h4>Large scale pre-training alleviates the need for adaptation.</h4>
+                
+                <div class="row mt-2">
+                    <h3>Additional Results</h3>
                 </div>
-
                 <div class="row">
-                    <h4>The Wasserstein Distance is a good measure of domain shift.</h4>
-                    <p>How can we quantify domain shift besides estimating the classification performance on the target
-                        domain?
-                        Without target domain labels, we can leverage the mismatch in source and target statistics for
-                        this purpose.
-                        We define the normalized Wasserstein distance as
-                        $$
-                        W_2 = ...
-                        $$
-                        and consider the correlation between the Wasserstein distance and the error rates.
-                        We find a correlation between the quantities especially <i>within the same corruption type</i>.
+                    <p>
+                    Please have a look at our
+                    <a href="https://arxiv.org/pdf/2006.16971.pdf">
+                    <i class="far fa-sticky-note"></i>
+                    pre-print</a> for further results.
+                    We will also soon release 
+                    <a href="https://github.com/bethgelab/robustness"> <i class="fab fa-github"></i>
+                        code
+                    </a>
+                    for reproducing our experiments.
+                    Please <a href="mailto:steffen@bethgelab.org">reach out</a> if you have any additional questions.
                     </p>
                 </div>
 
                 <div class="row">
-                    <h3>Citation</h3>
+                    <h3>BibTeX</h3>
                 </div>
                 <div class="row">
-                    <p>If you find our analysis helpful please cite our pre-print:</p>
+                    <p>If you find our analysis helpful, please cite our pre-print:</p>
                 </div>
                 <div class="row justify-content-md-center">
                     <div class="col-sm-10 rounded p-3 m-2" style="background-color:lightgray;">
-                        <p class="code">
+                        <small class="code">
                             @article{schneider2020betterinc,<br>
-                            author = { Schneider, Steffen and Rusak, Evgenia<br>
-                            and Eck, Luisa and Bringmann, Oliver<br>
-                            and Brendel, Wieland and Bethge, Matthias},<br>
-                            title = {Removing covariate shift improves<br>
-                            robustness against common corruptions},<br>
-                            journal = {CoRR},<br>
-                            year = {2020},<br>
+                            &nbsp;&nbsp;author = { Schneider, Steffen and Rusak, Evgenia<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;and Eck, Luisa and Bringmann, Oliver<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;and Brendel, Wieland and Bethge, Matthias<br>
+                            &nbsp;&nbsp;},<br>
+                            &nbsp;&nbsp;title = {Removing covariate shift improves<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;robustness against common corruptions<br>
+                            &nbsp;&nbsp;},<br>
+                            &nbsp;&nbsp;journal = {CoRR},<br>
+                            &nbsp;&nbsp;volume = {abs/2006.16971},<br>
+                            &nbsp;&nbsp;year = {2020},<br>
                             }
-                        </p>
+                        </small>
                     </div>
                 </div>
 
                 <div class="row">
-                    <a href="#"><i class="fas fa-sort-up"></i></a>
+                    <small class="text-muted">Webpage designed using Bootstrap 4.5 and Chart.js.</small>
+                    <a href="#" class="ml-auto"><i class="fas fa-sort-up"></i></a>
                 </div>
 
-            </div>
-            <div class="col-lg-2">
-                <p data-footnote="1">FOOTNOTE 1</p>
-                <p data-footnote="2">FOOTNOTE 2</p>
             </div>
         </div>
 
     </div>
 
-    <footer>
-        Webpage designed by Steffen Schneider using Bootstrap 4.5 and Chart.js.
-    </footer>
 
 
 
@@ -323,38 +350,6 @@
         };
     </script>
 
-    <script>
-    $(document).ready(function() {
-        var currentCitationPosition = 0;
-
-        // For each citation reference in the text.
-        $('div.main-content span[data-footnote]').each(function(index) {
-            console.log(index);
-            // Add the citation number.
-            var citationNum = $(this).data('footnote');
-            $(this).html('(' + citationNum + ')');
-
-            // Find the position of the citation reference, but don't overdraw an existing citation.
-            var offset = $(this).offset();
-            if (offset.top > currentCitationPosition) {
-            currentCitationPosition = offset.top;
-            }
-
-            // Find the citation matching the citation reference.
-            var citation = $('div.footnote p[data-footnote="' + citationNum + '"]');
-            if (citation) {
-            // Set this position to the offset.top of the reference, or below the previous citation.
-            $(citation).offset({
-                top: currentCitationPosition
-            });
-            // Pad by the height of the current citation to prevent overdraw.
-            currentCitationPosition += $(citation).height();
-            }
-
-        });
-
-    });
-    </script>
 </body>
 
 </html>
