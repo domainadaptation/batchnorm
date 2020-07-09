@@ -3,23 +3,26 @@ var config_batchsize = {
     data: {
         labels: table.batchsize,
         datasets: [{
-            label: 'ResNet',
+            label: 'ResNet-50 (best N)',
             borderColor: COLOR[0],
             data: table2chart(table_batchsize_optimal.batchsize, table_batchsize_optimal.resnet),
             fill: false,
-        }, {
-            label: 'AutoAugment',
-            fill: false,
-            borderColor: COLOR[1],
-            data: table2chart(table_batchsize_optimal.batchsize, table_batchsize_optimal.augmix),
-        }, {
-            label: 'AugMix',
+        },
+        {
+            label: 'ResNet-50 (N=0)',
             fill: false,
             borderColor: COLOR[0],
             borderDash: [5, 5],
             data: table2chart(table_infty_rn50.batchsize, table_infty_rn50.mCE),
-        }, {
-            label: 'AugMix',
+        },        
+        {
+            label: 'AugMix (best N)',
+            fill: false,
+            borderColor: COLOR[1],
+            data: table2chart(table_batchsize_optimal.batchsize, table_batchsize_optimal.augmix),
+        },
+        {
+            label: 'AugMix (N=0)',
             fill: false,
             borderColor: COLOR[1],
             borderDash: [5, 5],
