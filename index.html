@@ -83,29 +83,38 @@
                 <!-- End author list-->
 
                 <div class="row text-center">
-                    <div class="col-sm-4 mb-4">
-                        <h3>
+                    <div class="col-sm-3 mb-3">
+                        <h4>
                             <a href="https://arxiv.org/pdf/2006.16971.pdf">
-                            <i class="far fa-sticky-note"></i>
+                            <i class="fas fa-file-alt"></i>
                             Paper
-</a>
-                        </h3>
+                        </a>
+                        </h4>
                     </div>
-                    <div class="col-sm-4 mb-4">
-                        <h3>
+                    <div class="col-sm-3 mb-3">
+                        <h4>
+                            <a href="http://www.gatsby.ucl.ac.uk/~balaji/udl2020/accepted-papers/UDL2020-paper-002.pdf">
+                            <i class="far fa-file-alt"></i>
+                            Workshop 
+                        </a>
+                        </h4>
+                    </div>
+                    <div class="col-sm-3 mb-3">
+                        <h4>
                             <a href="200709_BatchNormAdapt.pdf"> <i class="far fa-chart-bar"></i>
                                 Slides
                             </a>
-                        </h3>
+                        </h4>
                     </div>
-                    <div class="col-sm-4 mb-4">
-                        <h3>
+                    <div class="col-sm-3 mb-3">
+                        <h4>
                             <a href="https://github.com/bethgelab/robustness"> <i class="fab fa-github"></i>
                                 Code
                             </a>
-                        </h3>
+                        </h4>
                     </div>
                 </div>
+
                 <div class="row text-center">
                     <p>
                         <b>tl;dr:</b>
@@ -118,7 +127,23 @@
                     </p>
                 </div>
 
+                <div class="row mt-2">
+                    <h3>News</h3>
+                </div>
+
                 <div class="row">
+                    <ul>
+                    <li> July '20: A shorter <a href="http://www.gatsby.ucl.ac.uk/~balaji/udl2020/accepted-papers/UDL2020-paper-002.pdf">
+                        <i class="far fa-sticky-note"></i> workshop version
+                    </a>
+                    of the paper was accepted for oral presentation at the <a href="https://sites.google.com/view/udlworkshop2020" target="_blank">Uncertainty & Robustness in Deep Learning</a> Workshop at ICML 2020.
+                    </li>
+                    <li> June '20: The pre-print is available on arXiv: https://arxiv.org/pdf/2006.16971.pdf 
+                    </li>
+                    </ul>
+                </div>
+
+                <div class="row mt-2">
                     <h3>Abstract</h3>
                 </div>
                 <div class="row">
@@ -174,14 +199,14 @@
                 </div>
 
                 <div class="row">
-                    <div class="rounded col-lg-2"></div>
-                    <div class="rounded col-lg-8">
+                    <div class="rounded col-lg-1"></div>
+                    <div class="rounded col-lg-10">
                         <div class="w-100 pt-10"
-                            style="background-image: url(https://github.com/hendrycks/robustness/raw/master/assets/imagenet-c.png); background-repeat: no-repeat; background-size: contain, cover; min-height: 300px;">
+                            style="background-image: url(inc.png); background-repeat: no-repeat; background-size: contain, cover; min-height: 300px;">
                         </div>
-                        <small class="text-muted">Overview of corruptions in the ImageNet-C dataset.
-                            Reproduced from <a href="https://github.com/hendrycks/robustness"
-                                target='_blank'>github.com/hendrycks</a>.
+                        <small class="text-muted">Overview of corruptions in the ImageNet-C dataset. Each corruption is applied in five different severities.
+                            In total, this yields 15x5 test corruptions and 4x5 holdout corruptions.
+                            While our method is generally hyperparameter free, the pseudo-batchsize \(N\) is selected on the holdout set for the small sample results.
                         </small>
                     </div>
                     <div class="rounded col-lg-2"></div>
